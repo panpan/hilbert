@@ -1,7 +1,69 @@
+/*
+L-system (hilbert):
+  variables : A B
+  constants : F + -
+  axiom : A
+  rules : (A -> -BF+AFA+FB-), (B -> +AF-BFB-FA+)
+*/
+
 var width = 600;
 var height = 600;
+var step = 10;
+var theta = Math.PI / 2;
+var turtle = {
+  x: width / 2,
+  y: height / 2,
+  angle: 0
+};
+
+var lSystem = function(axiom, rules, iters) {
+  if (iters === 0) {
+    return axiom;
+  }
+
+  axiom = axiom.split('').map(function(x) {
+    return rules[x] ? rules[x] : x;
+  }).join('');
+
+  return lSystem(axiom, rules, iters - 1);
+};
+
+var processStr = {
+  'F': function(data) {
+    var x = turtle.x + step * Math.cos(turtle.angle);
+    var y = turtle.y + step * Math.sin(turtle.angle);
+    turtle.x = x;
+    turtle.y = y;
+    data.push({ x: x, y: y });
+    return data;
+  },
+  '+': function(data) {
+    turtle.angle -= theta;
+    return data;
+  },
+  '-': function(data) {
+    turtle.angle += theta;
+    return data;
+  }
+};
+
+var getData = function(instructions, processStr) {
+  var data = [];
+  instructions.split('').forEach(function(x) {
+    if (processStr[x]) {
+      data = processStr[x](data);
+    }
+  });
+  return data;
+};
 
 var createSVG = function(data) {
+  turtle = {
+    x: width / 2,
+    y: height / 2,
+    angle: 0
+  };
+
   var svg = d3.select('body').append('svg')
               .attr('width', width)
               .attr('height', height);
@@ -11,75 +73,8 @@ var createSVG = function(data) {
     .y(function(d) { return d.y; });
 
   svg.append('path')
-     .data([data])
-     .attr('d', d);
-
-  turtle = {
-    x: width / 2,
-    y: height / 2,
-    angle: 0
-  };
-};
-
-var turtle = {
-  x: width / 2,
-  y: height / 2,
-  angle: 0
-};
-
-/*
-Hilbert curve L-system:
-  variables : A B
-  constants : F + -
-  axiom : A
-  rules : (A -> -BF+AFA+FB-), (B -> +AF-BFB-FA+)
-*/
-
-var fractal = function(axiom, rules, iters) {
-  if (iters === 0) {
-    return axiom;
-  }
-
-  axiom = axiom.split('').map(function(c) {
-    return rules[c] ? rules[c] : c;
-  }).join('');
-
-  return fractal(axiom, rules, iters - 1);
-};
-
-var hilbertAxiom = 'A';
-var hilbertRules = {
-  A: '-BF+AFA+FB-',
-  B: '+AF-BFB-FA+'
-};
-
-var draw = {
-  'F': function(data) {
-    var x = turtle.x + Math.cos(turtle.angle)*5;
-    var y = turtle.y + Math.sin(turtle.angle)*5;
-    data.push({x: x, y: y});
-    turtle.x = x;
-    turtle.y = y;
-    return data;
-  },
-  '+': function(data) {
-    turtle.angle -= Math.PI / 2;
-    return data;
-  },
-  '-': function(data) {
-    turtle.angle += Math.PI / 2;
-    return data;
-  }
-};
-
-var getData = function(str, draw) {
-  var data = [];
-  str.split('').forEach(function(c) {
-    if (draw[c]) {
-      data = draw[c](data);
-    }
-  });
-  return data;
+    .data([data])
+    .attr('d', d);
 };
 
 $('.hilbert-form').submit(function() {
@@ -98,8 +93,8 @@ $('.hilbert-form').submit(function() {
     return false;
   }
 
-  var str = fractal(axiom, rules, parseInt(iters));
-  var data = getData(str, draw);
+  var instructions = lSystem(axiom, rules, parseInt(iters));
+  var data = getData(instructions, processStr);
   $('svg').remove();
   createSVG(data);
   return false;
