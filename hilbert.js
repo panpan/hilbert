@@ -1,14 +1,14 @@
 /*
-L-system (hilbert):
+L-system (hilbert)
   variables : A B
   constants : F + -
   axiom : A
   rules : (A -> -BF+AFA+FB-), (B -> +AF-BFB-FA+)
 */
 
-var width = 600;
-var height = 600;
-var step = 10;
+var width = 400;
+var height = 400;
+var step = 5;
 var theta = Math.PI / 2;
 var turtle = {
   x: width / 2,
@@ -68,20 +68,17 @@ var createSVG = function(data) {
               .attr('width', width)
               .attr('height', height);
 
-  var xs = data.map(function(point) { return point.x; });
-  xmax = d3.max(xs);
-  xmin = d3.min(xs);
-
-  var x = d3.scaleLinear().domain([xmin, xmax])
+  var x = data.map(function(d) { return d.x; });
+  var xScale = d3.scaleLinear().domain([d3.min(x), d3.max(x)])
                            .range([0, 600]);
 
-  var ys = data.map(function(point) { return point.y; });
-  var y = d3.scaleLinear().domain([d3.min(ys), d3.max(ys)])
+  var y = data.map(function(d) { return d.y; });
+  var yScale = d3.scaleLinear().domain([d3.min(y), d3.max(y)])
                            .range([0, 600]);
 
   var d = d3.line()
-    .x(function(d) { return x(d.x); })
-    .y(function(d) { return y(d.y); });
+    .x(function(d) { return xScale(d.x); })
+    .y(function(d) { return yScale(d.y); });
 
   svg.append('path')
     .data([data])
