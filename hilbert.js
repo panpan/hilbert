@@ -68,9 +68,20 @@ var createSVG = function(data) {
               .attr('width', width)
               .attr('height', height);
 
+  var xs = data.map(function(point) { return point.x; });
+  xmax = d3.max(xs);
+  xmin = d3.min(xs);
+
+  var x = d3.scaleLinear().domain([xmin, xmax])
+                           .range([0, 600]);
+
+  var ys = data.map(function(point) { return point.y; });
+  var y = d3.scaleLinear().domain([d3.min(ys), d3.max(ys)])
+                           .range([0, 600]);
+
   var d = d3.line()
-    .x(function(d) { return d.x; })
-    .y(function(d) { return d.y; });
+    .x(function(d) { return x(d.x); })
+    .y(function(d) { return y(d.y); });
 
   svg.append('path')
     .data([data])
