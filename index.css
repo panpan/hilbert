@@ -13,6 +13,11 @@ html, body {
   padding: 20px;
 }
 
+body {
+  width: 700px;
+  margin: auto;
+}
+
 h1 {
   font-size: 18px;
   margin-bottom: 10px;

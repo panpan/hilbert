@@ -8,7 +8,7 @@ L-system (hilbert)
 
 var width = 400;
 var height = 400;
-var step = 5;
+var step = 10;
 var theta = Math.PI / 2;
 var turtle = {
   x: width / 2,
