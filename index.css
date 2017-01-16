@@ -44,3 +44,10 @@ svg path {
   stroke: grey;
   stroke-width: 1px;
 }
+
+.links {
+  position: absolute;
+  bottom: 10px;
+  width: 400px;
+  text-align: right;
+}
