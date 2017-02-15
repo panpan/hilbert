@@ -16,6 +16,6 @@ where 'F' means 'draw forward', '+' means 'turn right 90°', and '-' means 'turn
 see: [Hilbert Curve][wolfram], [L-sytems][wikipedia]
 
 [live]: http://pan2.io/hilbert
-[hilbert]: ./hilbert.png
+[hilbert]: ./assets/hilbert.png
 [wolfram]: http://mathworld.wolfram.com/HilbertCurve.html
 [wikipedia]: https://en.wikipedia.org/wiki/L-system
