@@ -47,7 +47,7 @@ var processStr = {
   }
 };
 
-var getData = function(instructions, processStr) {
+var getData = function(instructions) {
   var data = [];
   instructions.split('').forEach(function(x) {
     if (processStr[x]) {
@@ -70,11 +70,11 @@ var createSVG = function(data) {
 
   var x = data.map(function(d) { return d.x; });
   var xScale = d3.scaleLinear().domain([d3.min(x), d3.max(x)])
-                           .range([0, 600]);
+                           .range([0, width]);
 
   var y = data.map(function(d) { return d.y; });
   var yScale = d3.scaleLinear().domain([d3.min(y), d3.max(y)])
-                           .range([0, 600]);
+                           .range([0, height]);
 
   var d = d3.line()
     .x(function(d) { return xScale(d.x); })
@@ -93,16 +93,13 @@ $('.hilbert-form').submit(function() {
   };
   var iters = $('.iters').val();
 
-  if (!axiom || !rules.A || !rules.B || !iters) {
+  if (!axiom || !rules.A || !rules.B) {
     alert('must enter inputs');
-    return false;
-  } else if (parseFloat(iters) <= 0 || !Number.isInteger(parseFloat(iters))) {
-    alert('iterations must be a positive integer');
     return false;
   }
 
   var instructions = lSystem(axiom, rules, parseInt(iters));
-  var data = getData(instructions, processStr);
+  var data = getData(instructions);
   $('svg').remove();
   createSVG(data);
   return false;
