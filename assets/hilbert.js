@@ -93,11 +93,8 @@ $('.hilbert-form').submit(function() {
   };
   var iters = $('.iters').val();
 
-  if (!axiom || !rules.A || !rules.B || !iters) {
+  if (!axiom || !rules.A || !rules.B) {
     alert('must enter inputs');
-    return false;
-  } else if (parseFloat(iters) <= 0 || !Number.isInteger(parseFloat(iters))) {
-    alert('iterations must be a positive integer');
     return false;
   }
 
