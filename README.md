@@ -1,8 +1,8 @@
-# [hilbert][live]
+# Hilbert
 
 ![hilbert]
 
-[hilbert][live] is a fractal generator using L-systems and D3.js. The L-system for the Hilbert Curve (fields are pre-filled) is defined as follows:
+Hilbert is an interactive fractal visualizer using Lindenmayer systems and turtle graphics, built with D3.js. The L-system for the Hilbert Curve (fields are pre-filled) is defined as follows:
 
 ```
 variables: A B
@@ -15,7 +15,6 @@ where 'F' means 'draw forward', '+' means 'turn right 90°', and '-' means 'turn
 
 see: [Hilbert Curve][wolfram], [L-sytems][wikipedia]
 
-[live]: http://pan2.io/hilbert
 [hilbert]: ./assets/hilbert.png
 [wolfram]: http://mathworld.wolfram.com/HilbertCurve.html
 [wikipedia]: https://en.wikipedia.org/wiki/L-system
